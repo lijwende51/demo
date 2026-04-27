@@ -18,18 +18,25 @@ use App\Http\Controllers\PaymentController;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::get('/products', [\App\Http\Controllers\ProductController::class, 'index']);
-Route::get('/products/{id}', [\App\Http\Controllers\ProductController::class, 'show']);
-Route::post('/products', [\App\Http\Controllers\ProductController::class, 'store']);  
+
+// Public routes
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
+
+// Protected routes
 Route::middleware('auth:sanctum')->group(function () {
-    Route::post('/cart/add', [CartController::class, 'addToCart']);
-    Route::get('/cart', [CartController::class, 'viewCart']);
-    Route::post('/cart/remove', [CartController::class, 'removeFromCart']);
-    Route::post('/orders', [OrderController::class, 'placeOrder']);
-    Route::get('/orders', [OrderController::class, 'viewOrders']);
-    Route::post('/payment', [PaymentController::class, 'processPayment']);
-
-});  
-
+    Route::post('/logout', [AuthController::class, 'logout']);
+    
+    // Product routes
+    Route::apiResource('products', ProductController::class);
+    
+    // Cart routes
+    Route::apiResource('carts', CartController::class);
+    
+    // Order routes
+    Route::apiResource('orders', OrderController::class);
+    
+    // Payment routes
+    Route::post('/payments/process', [PaymentController::class, 'processPayment']);
+    Route::apiResource('payments', PaymentController::class);
+});

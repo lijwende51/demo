@@ -18,8 +18,7 @@ return new class extends Migration
             $table->decimal('price', 8, 2); 
             $table->string('image_url')->nullable();
             $table->integer('stock')->default(0);
-            $table->unsignedBigInteger('category_id')->nullable();
-            $table->foreign('category_id')->references('id')->on('categories')->onDelete('set null');   
+            // Removed category_id foreign key - create categories table first if needed
             
             $table->timestamps();
         });

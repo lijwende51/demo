@@ -7,4 +7,17 @@ use Illuminate\Database\Eloquent\Model;
 class Product extends Model
 {
     //
+    protected $fillable = [
+        'name',
+        'description',
+        'price',
+        'stock',
+        'image_url',
+        'category_id',
+    ];
+    
+    protected $casts = [
+        'price' => 'decimal:2',
+        'stock' => 'integer',
+    ];
 }
